@@ -1,0 +1,113 @@
+# CS151 PROGRAMMING ASSIGNMENT #3
+
+* 60  POINTS (10pts design, 50pts final)                                  			
+* DESIGN DUE: 2/22 
+* FINAL DUE: 3/1
+
+## PROBLEM:
+
+You are creating a program to determine admission to a fictional university, its sports teams, and its honors programs.
+
+## PURPOSE OF THE ASSIGNMENT
+
+The purpose of this assignment is to give you practice with
+
+1. input & output
+2. decision making
+3. function design and implementation
+4. error checking
+
+## REQUIREMENTS ANALYSIS 
+
+The first stage in your programming assignment is the requirements analysis stage.  You need to make sure you understand the below requirements for what needs to be included in your program.
+
+### University Admittance
+
+Admittance to the university is based on GPA:
+* Greater than 4: tell the student to calibrate to a 0-4 scale and end the program
+* At least 3, but no greater than 4: admit
+* At least 2, but less than 3: waitlist
+* Less than 2: deny
+
+Only students who are admitted to the university should be asked about sports or honors programs.
+
+### Sports team Admittance
+
+The user gets to choose whether or not they want to join a sports team. If they do, then they need to enter the name of the sport whose team they want to join. They can enter anything for their sports team.
+
+Admittance to the sports team is based on their level of sport ability in high school on a scale of 0-10 (integer):
+* Sports level greater than 8: joins the varsity team
+* Sports level greater than 5: joins the club team
+* Sports level of 5 or lower: assigned as bench warmer
+* However, if their GPA is less than 3.2 they will be demoted one tier.
+* Bench warmer is lowest tier.
+
+### Honors Program
+
+Our fictional university has two honors programs: Super Awesome Honors (SAH), and Also Awesome Honors (AAH). To be admitted into an honors program, students must submit a rating on their leadership experience, community service experience, and work experience. Each is rated on a scale of 0 to 10 (integer). The total of all three determines their admission. A score of greater than 23 admits a student to SAH. A score of at least 15 admits students to AAH who were not admitted to SAH. No one else is admitted to honors.
+
+### General design requirements
+
+1. In your program, you must do some basic error checking on numerical input: before typecasting input to an int, check that it is only digits; if it's only digits you can typecast, but if it isn't then you should set the value to zero. However, if the int is not in the valid range for the problem (e.g. 0 to 10), it should be set to zero also.
+2. User string input should have error checking so that even if a user enters different capitalization, or extra spaces on either side, it will still work correctly if they enter the desired phrase.
+3. Your program should follow good HCI principles. Prompts and output should be clear. Prompts should make it clear what values are allowed (such as giving options to enter, or a range for values to be in).
+
+## DESIGN
+
+The second stage is to design your solution based on the requirements:
+
+1. Determine the tasks being accomplished in your program. Each of these should be a function. If you find yourself writing the same steps in many places, that is usually a good sign that those steps should be in their own function. A group of steps that are highly related to each other also should be a function.
+2. Write an algorithm for each function. This algorithm includes parameters, calculations, and returned values. No code other than import statements and the call to main should exist outside of a function.
+3. Make the main part of your program be in a “main” function. The main function never takes parameters, and does not return anything. The main function will call most of your other functions.
+4. Double check that you included all of the requirements.
+
+
+### DESIGN SUBMISSION: 2/22/23
+
+Submit to GitHub in PA3 repository: the algorithm for your adventure game in designInitial.txt. The general format for a function is given to you in that file. You can copy/paste the starting point (name, parameters, return, algorithm headers) for as many functions as you need to define for your problem.
+
+*Remember to double check on github.com that your file pushed. If it didn't, you need to push it. Your instructor can only see what is on github.com, not what is only on your computer.*
+
+Your algorithm should follow the requirements of an algorithm, contain all of the requirements, and include your entire program. Everything should be planned out. There should not be any code.
+
+## PROGRAMMING STEPS
+
+After your design is complete and correct, it's time to start programming and then testing:
+
+* Fix design issues: If there were issues with your design, either not meeting requirements or in the format, fix that before you start writing your code.
+* Implementation: Write your program following the requirements and based on your design.
+  * Follow good usability/HCI principles in your input and output (make it clear the type of input you are asking for)
+  * Follow good use of functions
+  * Remember to define functions before they are used (so if function A calls function B, you need to define function B first in your program)
+  * Remember to state the purpose of the program
+  * Remember to have a main function, and to call it.
+* Testing: Make sure it works correctly; give it sample input, and check that the output is correct.
+  * Create at least 10 test cases for control paths in your code. You do not need to turn in a flowchart, but you may find writing one to be helpful in thinking through control paths. In your test cases, you should give a description that states the situation being tested, the inputs, and the expected output. The general format is the same as we did in previous assignments.  For example, a description might be "admitted, doesn't want a sport, SAH." Then the inputs/outputs would give us that situation. Be sure to test boundary values. At least some of your test cases should be for error cases.
+  * Test your program using the test cases. You may not need to create test cases for every control path, but you should still try to test everything. Your goal with test cases is to determine if your program works. You want to try to test as many situations as possible! The person grading your code will certainly be testing every situation; there's no reason for you not to know if it works when you hand it in.
+
+
+## EXTRA CREDIT (only if everything else works)
+
+If you choose to do extra credit, it must be submitted in a separate file with "extraCredit" in the file name. 
+
+Design a function that allows the user to keep trying to input an int when an int was asked for, until they do so. Use this function wherever you checked for an int in the original program. You will no longer set it to zero when a non-integer is input, since you will allow the user to keep trying.
+
+## ASSIGNMENT REMINDERS
+
+Follow the programming assignment requirements document for comments, formatting, etc.
+
+## REFLECTION
+
+Write a short reflection about the programming assignment in reflection.txt: what did you learn, what would you do differently next time, what was difficult?  This should be no more than a page.
+
+## FINAL SUBMISSION due 3/1
+
+1. To GitHub:  
+    1. Your .py file  
+    2. Your extra credit .py file if you did the extra credit (make sure "extraCredit" is in the filename)  
+    3. Your final algorithm, including the changes you made based on the design feedback, in designFinal.txt
+    4. Your reflection of the programming assignment in reflection.txt.
+2. To Moodle:    
+    1. Your test cases in testcases.xlsx. See the description in the programming steps section above. 
+
+***Remember to double check on github.com that your files pushed. If they didn’t, you need to push them. Your instructor can only see what is on github.com, not what is only on your computer.***
