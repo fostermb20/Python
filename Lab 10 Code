@@ -1,0 +1,84 @@
+# Programmers: Michael Foster and Gabe Fenchak
+# Course: CS151
+# Due Date: 04/20/2023
+# Lab 10
+# Problem Statement: We need to analyze Titanic data and output the number of survivors and the survival rate from each class
+# Data In: N/A
+# Data Out: Number of survivors, survival rate from each class
+# Credits: This code is our own
+# Input Files: titanic.txt
+
+
+import matplotlib.pyplot as plt #import module in order to create bargraph
+
+# Purpose: Read in the titanic file and store the information in a list of lists
+# Parameters: Filename - variable that stores titanic.txt as the filename
+# Return: titanic_list - variable that stores the titanic.txt information in a list of lists
+def read_file(filename):
+    titanic_list = [] #create an empty list
+    file = open(filename, 'r') #read in the file
+    for line in file:
+        elements = line.strip().split("\t")
+        titanic_list.append(elements) #iterate through the file and add the information to the empty list
+    return titanic_list #return the list
+
+# Purpose: Count the number of survivors
+# Parameters: titanic_list - variable that stores the titanic.txt information in a list of lists
+# Return: survivors - variable that stores the total number of survivors
+def count_survivors(titanic_list):
+    survivors = 0 #initalize the survivor count
+    for passengers in titanic_list:
+        if passengers[1] == "1":
+            survivors += 1 #iterate through the file and count the number of survivors
+    print("Number of survivors:", survivors) #output the number of survivors
+    return survivors #return the number of survivors
+
+# Purpose: Calculate the survival rate of each class
+# Parameters: titanic_list - variable that stores the titanic.txt information in a list of lists
+# Return: class_1_survived_percentage, class_2_survived_percentage, class_3_survived_percentage - variables that store the survival rate of each class
+def percentage_class_survived(titanic_list):
+    class_1_pop = 0 #initialize each class' population count
+    class_2_pop = 0
+    class_3_pop = 0
+    for passengers in titanic_list:
+        if passengers[0] == "1":
+            class_1_pop += 1
+        elif passengers[0] == "2":
+            class_2_pop += 1
+        elif passengers[0] == "3":
+            class_3_pop += 1 #iterate through the file and sum the number of passengers in each class
+    class_1_survived = 0
+    class_2_survived = 0
+    class_3_survived = 0 #initialize each class' passengers who survived
+    for passengers in titanic_list:
+        if passengers[0] == "1" and passengers[1] == "1":
+            class_1_survived += 1
+        elif passengers[0] == "2" and passengers[1] == "1":
+            class_2_survived += 1
+        elif passengers[0] == "3" and passengers[1] == "1":
+            class_3_survived += 1 #iterate through the file and sum the number of passengers who survived in each class
+    class_1_survived_percentage = ((class_1_survived) / (class_1_pop)) * 100
+    class_1_survived_percentage = round(class_1_survived_percentage, 2)
+    class_2_survived_percentage = ((class_2_survived) / (class_2_pop)) * 100
+    class_2_survived_percentage = round(class_2_survived_percentage, 2)
+    class_3_survived_percentage = ((class_3_survived) / (class_3_pop)) * 100
+    class_3_survived_percentage = round(class_3_survived_percentage, 2) #calculate the percentage of passengers who survived in each class
+    print("The number of people in Class 1 was", class_1_pop, "and the percentage of survivors from Class 1 was", class_1_survived_percentage, "%, meaning there were", class_1_survived, "survivors.")
+    print("The number of people in Class 2 was", class_2_pop, "and the percentage of survivors from Class 2 was", class_2_survived_percentage, "%, meaning there were", class_2_survived, "survivors.")
+    print("The number of people in Class 3 was", class_3_pop, "and the percentage of survivors from Class 3 was", class_3_survived_percentage, "%, meaning there were", class_3_survived, "survivors.")
+    #output the number of people in each class and the percentage of passengers who survived in each class
+    return class_1_survived_percentage, class_2_survived_percentage, class_3_survived_percentage #return the percentages of passengers who survived in each class
+
+# Purpose: Main function to run the program
+# Parameters: N/A
+# Return: N/A
+def main():
+    titanic_list = read_file("titanic.txt") #store the list by calling the read function
+    survivors = count_survivors(titanic_list) #store the number of survivors by calling the survival function
+    percentage_class_survived(titanic_list) #call survival rate function
+    my_data = [61.92, 42.96, 25.53] #enter the survival rate of each class as data for the bargraph
+    x_axis = ["Class 1", "Class 2", "Class 3"] #enter the titles of each bargraph
+    plt.bar(x_axis, my_data) #plot the bargraph
+    plt.show() #display the bargraph
+
+main() #call main function to run the program
