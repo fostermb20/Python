@@ -1,0 +1,51 @@
+# CS151 Lab 11
+20 Points
+Due: Before Next Lab
+
+## Problem
+The race is on. Let's time some algorithms.
+
+## Purpose
+This lab gives you practice with: 
+* Binary Search
+* Following problem-solving techniques
+* Sorting
+* Answering CS questions
+
+## Details
+
+You are going to time binary search vs. linear search and a sort of your choice against the built-in `sort()` function. We are going to try to see whether you can spot the difference in speed these implementations. Each function is going to search or sort a list 10,000 times. You are going to try to find out how much work each of these functions can get done in **5** seconds.
+
+## Design
+You have been provided with a few functions:
+* `time_search(search_name, size)` times a search, `search_name`, looking for a random number in a list of size `size` 10,000 times.
+* `time_sort(sort_name, size)` times a sort, `sort_name`, sorting a list of size `size` 10,000 times.
+* `main()` asks the user what function to time and how big a list to work on.
+* a variety of helper functions for displaying a menu, getting clean input, and testing your searches and sorts.
+
+You will have to write the following functions to time:
+* `my_sort(alist)` sorts `alist` using a sort of your choice from class.
+* `builtin_sort(alist)` sorts `alist` using the built in `sort()` function  
+* `binarysearch(alist, value)` performs a standard binary search as we discussed in class. It looks for `value` in `alist`.
+* `linearsearch(alist, value)` performs a standard linear search as we discussed in class. It looks for `value` in `alist`.
+
+## Steps
+1. Create your search and sort functions. Look for the TODO labels in Lab11.py.
+2. Run the main() function provided.
+    * For each of the four functions try to find values that force the computer to process for about **5 seconds**.
+        * Hint: if you have picked a number that is way too big, the computer might end up working for a long time. If you feel like it is taking too long, remember that you can hit the "Stop" button to interrupt program execution.
+    * Record the n (the size of the list) for each of the 4 functions in results.txt.
+3. Reflect for a bit on WHY the numbers you found are the way that they are and what this means, and add below your results in results.txt.
+4. What can you conclude based on these results and your reflection? Add these conclusions to results.txt.
+5. Remember back when we were looking for the biggest elements in a list? What does this say about the choice to sort the list vs. those that just searched for the biggest? Record your thoughts in results.txt.
+6. Don't forget to add your intro comments to the code and put comments in the function you wrote.
+
+## Submit
+1. To GitHub (one per group):
+    * Your .py file
+    * The results of your experiments (the numbers you found that cause the machine to work for 5 seconds) in results.txt
+    * Your best explanation for the results in results.txt.
+    * Some conclusions that you have drawn in results.txt.
+2. To Moodle (one per person):
+	* A reflection containing throughts on: what it was like to work with your partner; how you felt about working on this very different style of lab, and what, if anything, you learned.
+
