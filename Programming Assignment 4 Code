@@ -1,0 +1,117 @@
+# Programmers: Michael
+# Course: CS*151*01
+# Due Date: 3/29/23
+# Programming Assignment: 4
+# Problem Statement: Create the name race game where the program ends when a player reaches 10 points
+# Data In: Name
+# Data Out: Die roll, scoreboard, user/computer points
+
+
+import random #import random statement
+def intro(): #tell user the purpose
+    print("Welcome to the Name Race game! The object of the game is to be the first one to reach 10 points! You'll be playing against me, the computer! ")
+    print("I'll flip a coin each turn to see who gets to go. When it is your turn, you'll roll a die and write your name down in the corresponding slot. If that slot is already taken, your turn will be over and I'll flip the coin again.")
+    print("There are 6 slots total. The round ends once they are all filled. The winner of the round gets 5 points, and the loser gets 0. If it's a tie, we each get 1 point.")
+    print("Ready to play the Name Race?! Let's go!!")
+
+scoreboard = ["", "", "", "", "", ""] #assign scoreboard to list of blank strings
+user_points = 0 #iniialize user and computer points to 0
+computer_points = 0
+def show_scoreboard(): #create function to show the scoreboard
+    print("1:", scoreboard[0])
+    print("2:", scoreboard[1])
+    print("3:", scoreboard[2])
+    print("4:", scoreboard[3])
+    print("5:", scoreboard[4])
+    print("6:", scoreboard[5])
+
+def empty_spot(roll): #create function to determine if spot according to the roll is empty and return it
+    return scoreboard[roll-1] == ""
+
+def enter_name_in_spot(roll, name): #create function to enter name in the empty spot
+    scoreboard[roll-1] = name
+
+def coin_flip(): #create function to flip a coin
+    return random.choice([True, False])
+
+def die_roll(): #create function to roll a die
+    return random.randint(1, 6)
+
+def computer_turn(): #create function to represent the computer's turn
+    roll = die_roll()
+    if scoreboard[roll - 1] == "":
+        enter_name_in_spot(roll, "Computer")
+
+def round(user_points, computer_points): #create function to represent a round of the game
+    name = input("Enter your name: ")
+    computer = "Computer"
+    if coin_flip() is True:
+        print(name, "It's your turn!")
+        player = name
+    else:
+        print("It's the computer's turn!")
+        player = computer
+        computer_turn()
+    while True:
+        show_scoreboard()
+        input(f"{player}, press enter to roll the die!")
+        roll = die_roll()
+        print("You rolled a", roll)
+        if empty_spot(roll) is True:
+            enter_name_in_spot(roll, player)
+            if player == name:
+                player = computer
+            else:
+                player = name
+        else:
+            print("Sorry, that spot is already taken.")
+            if coin_flip() is True:
+                print(name,"goes next!")
+                player = name
+            else:
+                print(computer, "goes next!")
+                player = computer
+        if "" not in scoreboard:
+            show_scoreboard()
+            break
+    user_score = scoreboard.count(name)  #write code to assign a winner to the round
+    computer_score = scoreboard.count("Computer")
+    if user_score > computer_score:
+        print(name, "wins this round!")
+        user_points += 5
+    elif computer_score > user_score:
+        print("The computer wins this round!")
+        computer_points += 5
+    elif user_score == computer_score:
+        print("This round is a tie!")
+        user_points += 1
+        computer_points += 1
+    print("The score after this round is:")
+    print(name, ":", user_points)
+    print(computer, ":", computer_points)
+    return user_points, computer_points
+
+def reset_scoreboard(): #create function to clear scoreboard after each round
+    for score in range(len(scoreboard)):
+        scoreboard[score] = ""
+def main(): #write main function that puts together the entire game
+    user_points = 0
+    computer_points = 0
+    intro()
+    while user_points < 10 and computer_points < 10: #write code to determine a winner of the game based on the compounded points throughout each round
+        reset_scoreboard()
+        user_points, computer_points = round(user_points, computer_points)
+    if user_points >= 10:
+        print("You won the game! Thank you for playing!") #thank user
+    elif computer_points >= 10:
+        print("The computer won the game! Thank you for playing!")
+
+main() #call main function
+
+
+
+
+
+
+
+
