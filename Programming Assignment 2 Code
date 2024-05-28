@@ -1,0 +1,135 @@
+# Programmers: Michael Foster
+# Course:  CS151, Dr. Kenyon
+# Due Date: 2/15/22
+# Programming Assignment: 2
+# Problem Statement: Create a choose-your-own adventure game.
+# Data In: Name, role, wars fought, attack/defend, wait/shoot, fireball/lightning, accept medal/crown/dinner invitation, time in infirmary,
+# Data Out: Numerous print statements regarding the setting, invasion, experience of the user, deaths, winning the war, congratulations from the King, etc.
+# Credits: This code is my own.
+
+knight_action = "empty"
+knight_action_two = "empty"
+archer_action = "empty"
+wizard_action = "empty"
+
+print("Welcome to my adventure game! You'll soon be making a series of choices that will affect your fate. Choose wisely. Allow me to set the scene:")
+print("The year is 1450. You live in the State of Etrale in the Castle of Parador. Your state has just gone to war against the neighboring state Xastor. It's up to you to win the war and defend your state and people.")
+user_name = input("I've forgotten to introduce myself. My name is Alatar. What's your name?")
+print("It's a pleasure to meet you,", user_name, ".")
+user_role = input("Are you a knight, a wizard, or an archer?")
+user_role = user_role.lower().strip()
+if user_role == "knight":
+    print("A protector of King Reinald himself. An honorable occupation.")
+elif user_role == "wizard":
+    print("I too am a wizard who fought for Etrale. The best of luck to you,", user_name, ".")
+elif user_role == "archer":
+    print("A true marksman——nothing but respect. I could never get the hang of those bows.")
+wars_fought = int(input("How many wars have you fought in before this?"))
+if wars_fought <= 1:
+    print("I see we have quite the inexperienced", user_role, "here. Let's hope you don't let Etrale down.")
+elif 1 < wars_fought <= 3:
+    print("You've fought for our state with pride a few times now. A very noble", user_role, "you are.")
+elif wars_fought > 3:
+    if user_role == "archer":
+        print("It is the highest honor to have an", user_role, "as experienced and virtuous as yourself fight for Etrale. You will be admired for your leadership and courage.")
+    else:
+        print("It is the highest honor to have a", user_role, "as experienced and virtuous as yourself fight for Etrale. You will be admired for your leadership and courage.")
+print("An army of Xastor soldiers has been spotted in the distance approaching the Castle of Parador! Quick, get to your position and prepare to defend the Castle!")
+if user_role == "knight":
+    print("While you are in the courtyard waiting in anticipation for the enemies to attack, the Castle's gate is destroyed and the Xastor soldiers flood in.")
+    knight_action = input("An enemy knight is approaching you! You can choose to attack or defend. What will you do?")
+    knight_action = knight_action.lower().strip()
+    if knight_action == "attack":
+        print("You caught the enemy off guard! You killed the enemy knight from Xastor. Well done!")
+    elif knight_action == "defend":
+        print("You were ready for you enemy's attack. You successfully parried them.")
+        knight_action_two = input("You have another opportunity to attack or defend. Do you want to attack your enemy or defend once more?")
+        knight_action_two = knight_action_two.lower().strip()
+        if knight_action_two == "attack":
+            print("While the enemy was recovering from your counter, you struck and killed the enemy knight from Xastor. Well done!")
+            print("You went on to slay many enemy knights and helped Etrale win the war. Congratulations and thank you for playing!")
+        elif knight_action_two == "defend":
+            print("You didn't take advantage of your enemy's vulnerability and they attacked again. You were slashed in the arm and are now injured. The enemy spared your life.")
+if user_role == "wizard":
+    print("The Xastor soldiers break into the Castle's gates and an enemy wizard approaches you!")
+    wizard_action = input("You can choose to attack or defend. What will you do?")
+    wizard_action = wizard_action.lower().strip()
+    if wizard_action == "attack":
+        wizard_attack_type = input("How do you want to attack the enemy wizard? Enter fireball or lightning.")
+        wizard_attack_type = wizard_attack_type.lower().strip()
+        if wizard_attack_type == "fireball":
+           print("Your fireball was no match for the enemy wizard. You blew them up. Well done, fellow wizard!")
+        if wizard_attack_type == "lightning":
+            print("Your enemy had no time to react! You zapped the wizard from Xastor. Well done, fellow wizard!")
+    elif wizard_action == "defend":
+        print("Noooo! The enemy wizard was too fast for you! He zapped you with his lightning bolt and you fall unconcious. But little do your enemies know you're still alive.")
+if user_role == "archer":
+    print("While you're perched on top of the Castle wall, you see the enemies coming closer and closer.")
+    archer_action = input("You have the choice to either wait to attack until they are closer, or shoot now from afar. Enter wait or shoot.")
+    archer_action = archer_action.lower().strip()
+    if archer_action == "wait":
+        print("Wise choice, archer. Even the best archer wouldn't be able to hit that shot. When the soldiers approach closer, you slay one with your arrow.")
+    elif archer_action == "shoot":
+        print("You may be a good shot, but you're not that good. You miss the soldiers and once they approach closer, you are shot in the shoulder by an opposing archer. Fortunately, you are able to retreat into the castle.")
+if user_role == "knight" and knight_action == "attack":
+    print("After slaying your first enemy, you go on to slay 10 more and help to win the war against Xastor. King Reinald recognizes your courage and wants to award you with a medal.")
+    knight_medal_decision = input("Will you accept the medal from King Reinald? Enter yes or no.")
+    knight_medal_decision = knight_medal_decision.lower().strip()
+    if knight_medal_decision == "yes":
+        print("Your service has not gone unnoticed. King Reinald is forever grateful for your bravery. Thank you for playing!")
+    elif knight_medal_decision == "no":
+        print("You've been beheaded by King Reinald himself. Despite your bravery, King Reinald was extremely offended after you declined such a high honor. Thank you for playing!")
+if user_role == "wizard" and wizard_action == "attack":
+    print("After killing the opposing wizard, you didn't stop there. You used a smart mix of both fireballs and lightning bolts to single-handedly eliminate the entire army of Xastor, winning the war. Etrale would have been captured had it not been for you.")
+    print("After your display of courage, King Reinald would like to crown you with title of most distinguished wizard.")
+    crown_decision = input("Do you accept this title from King Reinald? Enter yes or no.")
+    crown_decision = crown_decision.lower().strip()
+    if crown_decision == "yes":
+        print("King Reinald is forever grateful for you and your wizardy. You will be remembered forever throughout the history of Etrale. Thank you for playing!")
+    elif crown_decision == "no":
+        print("King Reinald has disabled you of your wizadry powers and sentenced you to life in prison. How dare you not accept such a title from the king himself. Thank you for playing!")
+if user_role == "archer" and archer_action == "wait":
+    print("After sniping the first enemy, you reposition and are able to eliminate half of the invading soldiers due to your remarkable accuracy and aid Etrale in defeating Xastor.")
+    archer_medal_decision = input("King Reinald recognizes your role in the victory and would like to award you a medal for your marksmanship. Will you accept the medal from the King? Enter yes or no.")
+    archer_medal_decision = archer_medal_decision.lower().strip()
+    if archer_medal_decision == "yes":
+        print("King Reinald is eternally thankful for you and your service. He has always been interested in archery and asks you to be his personal coach. Perhaps this is an even higher honor than receiving the medal.")
+        print("You happily accept the position and go on to teach King Reinald the art of marksmanship. Thank you for playing!")
+    elif archer_medal_decision == "no":
+        print("King Reinald beheads you and pins your head to a wooden post using one of your arrows. It is an extreme offense to deny such a high honor from the king himself. Thank you for playing!")
+if knight_action_two == "defend":
+    print("After being slashed in the arm, you go to the infirmary and are bandaged by the nurse.")
+    knight_infirmary_time = float(input("In minutes, how long do you spend in the infirmary?"))
+    if knight_infirmary_time <= 10.0:
+        print("You were fixed up quickly and are ready to fight again. You go on to help Etrale to a victory over Xastor.")
+        knight_party_attendance = input("The night of the victory, King Reinald invites all the knights to his quarters to drink and celebrate. Do you accept his invitation? Enter yes or no.")
+        knight_party_attendance = knight_party_attendance.lower().strip()
+        if knight_party_attendance == "yes":
+            print("You get drunk with your closest friends and King Reinald. What a way to celebrate victory. King Reinald is forever grateful for your service. Thank you for playing!")
+        elif knight_party_attendance == "no":
+            print("King Reinald is deeply saddened that you did not attend the celebration, but understands. He writes to you thanking you for your courage. Thank you for playing!")
+    elif knight_infirmary_time > 10.0:
+        print("Your injury was too severe and took too long to tend to. The soldiers invaded Castle Parador and took everyone as prisoner, including yourself. If only you attacked when you had the chance. Thank you for playing!")
+if wizard_action == "defend":
+    print("Xastor's army thought you were dead——they did not realize you were simply unconscious. You wake up and realize you are behind enemy lines. Just as Xastor is about to take over Castle Parador, you save Etrale and slay every soldier. You are a hero.")
+    wizard_dinner_invite = input("King Reinald cannot express his gratitude to you and asks to treat you to dinner. Do you accept the dinner invitation? Enter yes or no.")
+    wizard_dinner_invite = wizard_dinner_invite.lower().strip()
+    if wizard_dinner_invite == "yes":
+        print("King Reinald is pleased to have you over for dinner. He expresses his eternal gratitude for saving Castle Parador and all of Etrale. You have the best meal you've ever had with the King. Thank you for playing!")
+    elif wizard_dinner_invite == "no":
+        print("King Reinald begs you to dinner saying it is the least he can do after you've saved the entire state of Etrale. You eventually accept the invitation and have the best dinner of your life with the King. Thank you for playing!")
+if archer_action == "shoot":
+    print("After being shot in the shoulder, you seek medical attention at the infirmary.")
+    archer_infirmary_time = float(input("In minutes, how long are you in the infirmary for?"))
+    if archer_infirmary_time <= 10.0:
+        print("You shoulder is tended to and you are able to return to your perch on the wall. As the Xastorian soldiers begin to attack, you kill many of them and help Etrale to victory.")
+        archer_gift = input("As a form of thank you, King Reinald wants to buy you a new bow and a satchel full of new arrows. Do you accept his gift? Enter yes or no.")
+        archer_gift = archer_gift.lower().strip()
+        if archer_gift == "yes":
+            print("King Reinald happily updates your archery equipment. Along with the new bow and arrows, he writes a note to you expressing his gratitude for your service. You go on to be the most successful archer in the history of Etrale. Thank you for playing!")
+        elif archer_gift == "no":
+            print("King Reinald doesn't take no for an answer and delivers the new bow and arrow to you door.")
+            print("You open the door and see the equipment and the note from the King expressing his thanks and graitude for you service and courage. You use the bow and arrow to go on and defend Etrale for years to come. Thank you for playing!")
+    if archer_infirmary_time > 10.0:
+            print("Your shoulder was too injured and you were unable to return to battle in time. Xastor took over the Castle and Etrale and you were taken prisoner and exectued. Thank you for playing!")
+print("Try playing multiple times to get different outcomes! No matter how it ends, thank you for playing and I hope you enjoyed it!")
