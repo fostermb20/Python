@@ -1,0 +1,270 @@
+# Programmer: Nicholas, Michael
+# Course:  CS151.01, Dr. Kenyon
+# Due Date: 4/26/23
+# Lab 11:
+# Problem Statement: Search and Sort numbers
+# Data In: Size of list
+# Data Out: Time
+# Credits: the notes in class, zybook for the code for my sort, linear search, and binary search functions
+
+
+import random
+import time
+
+# Global constant (avoid magic numbers, remember?)
+# Number of times to redo searches and sorts
+
+ITERATIONS = 10000 # DO NOT EDIT
+
+# Uses one of the sorts from class to sort
+# Parameters: alist - the list to sort
+# Returns: nothing
+def my_sort(alist):
+    # Selection Sort
+    for i in range(len(alist) - 1):
+        index_smallest = i
+        # Finds smallest item in the list
+        for j in range(i + 1, len(alist)):
+            if alist[j] < alist[index_smallest]:
+                index_smallest = j
+        temp = alist[i] #creates temporary list
+        alist[i] = alist[index_smallest]
+        alist[index_smallest] = temp
+
+    #TODO: Implement me!
+
+    return []
+
+
+
+# Uses the builtin python sort to sort
+# Parameters: alist - the list to sort
+# Returns: nothing
+def builtin_sort(alist):
+    #TODO: Implement me!
+    alist.sort()
+    
+    return []
+
+
+# Performs a linear search
+# Parameters: alist - a sorted list of values to search; value - the value to find in the list
+# Returns: The index of the value in the list, or -1 if it does not exist
+def linear_search(alist, value):
+    #TODO: Implement me!
+    for i in range(len(alist)):
+        if alist[i] == value: #iterates through the entire list looking for the desired element
+            return i
+    return -1
+
+
+# Performs a binary search
+# Parameters: alist - a sorted list of values to search; 
+#             value - the value to find in the list;
+# Returns: The index of the value in the list, or -1 if it does not exist
+def binary_search(alist, value):
+    # TODO: Implement me!
+    # Like a phone book
+    # Goes to the middle of the list, if it is the middle it returns it
+    # If not the middle then figure out which side it is on and divide by half
+    low = 0
+    high = len(alist) - 1
+    while high >= low:
+        mid = (high + low) // 2 #split list in half
+        if alist[mid] < value:
+            low = mid + 1
+        elif alist[mid] > value:
+            high = mid - 1
+        else:
+            return mid
+    return -1  # not found
+
+# Finds how long it takes to sort a list ITERATIONS times
+# Parameters:   sort_name - which sort to time
+#               size - how big a list to sort
+# Returns: total time taken for all sorts
+def time_sort(sort_name,size):
+    
+    # Total time spent
+    totaltime = 0
+
+    # Sorted list to search through
+    mylist = list(range(size))
+
+    # Loop a lot to figure out how long
+    for i in range(ITERATIONS):
+    
+        # shuffle the list
+        random.shuffle(mylist)
+    
+        # Perform sort on target in the list, timing how long it takes
+        start = time.process_time()
+        sort_name(mylist)
+        totaltime += time.process_time()-start
+        
+    return totaltime
+    
+    
+# Finds out how long it takes to find a number in a list ITERATIONS times.
+# Parameters:   search_name - the search to time
+#               size - how big a list to search
+# Returns: total time taken for all searches
+def time_search(search_name, size):
+    
+    # Total time spent
+    totaltime = 0
+
+    # Sorted list to search through
+    mylist = list(range(size))
+
+    # Loop a lot to figure out how long
+    for i in range(ITERATIONS):
+    
+        # Pick a random number to look for
+        target = random.randint(0, size)
+    
+        # Perform search on target in the list, timing how long it takes
+        start = time.process_time()
+        search_name(mylist, target)
+        totaltime += time.process_time()-start
+        
+    return totaltime
+
+
+# Get type safe integer input from the user
+# Parameters: Message to display to the user
+# Returns: int typed in by the user
+def input_int(msg):
+    
+    # Ask user for an integer using parameter as prompt
+    candidate = input(msg) 
+
+    # while the user hasn't provided an integer, ask again
+    while not candidate.isdigit():
+        print("Sorry, please enter an integer")
+        candidate = input(msg)
+    
+    # Return user's input, typecast to an int
+    return int(candidate)
+
+
+# Get menu selection from the user
+# Parameters: none
+# Returns: int of menu choice
+def menu():
+    # Create list of menu options to output to user
+    menuoptions = "\t1. Your Sort\n" +\
+                  "\t2. Python's Sort\n" +\
+                  "\t3. Linear Search\n" +\
+                  "\t4. Binary Search\n" +\
+                  "\t0. Exit"
+    
+    # Output options with nice formatting
+    print("-"*40)
+    print("Please select what you would like to time:")
+    print(menuoptions)
+    print("-"*40)
+    
+    # Ask user for choice using int input function, until they provide a valid value
+    choice = input_int("Your selection: ")
+    while choice > 4 :
+        print("That is not an option. As a reminder, your options are: ")
+        print(menuoptions)
+        choice = input_int("Your selection: ")
+    
+    return choice # Return user's choice as an int (typecasted above)
+
+
+# Tests whether a search function correctly searches a short list.
+# Paramters: search_function - the search function to test
+# Returns: True if the search function works, else False
+def test_search(search_function):
+    success = False
+    
+    try:
+        short = list(range(10))
+        success = search_function(short, 8) == 8
+    except:
+        success = False
+        
+    return success
+    
+    
+
+# Tests whether a sort function correctly sorts a short list.
+# Paramters: sort_function - the sort function to test
+# Returns: True if the sort function works, else False
+def test_sort(sort_function):
+    success = False
+    try:
+        short = list(range(10))
+        random.shuffle(short)
+        sort_function(short)
+        success = short == list(range(10))
+    except:
+        success = False
+    
+    return success
+    
+
+# Tests all of the functions you need to write for this lab
+# Parameters: None
+# Returns: None
+def run_all_tests():
+
+    if not test_sort(my_sort):
+        print("my_sort does not work correctly")
+        
+    if not test_sort(builtin_sort):
+        print("builtin_sort does not work correctly")
+        
+    if not test_search(linear_search):
+        print("linear_search does not work correctly")
+        
+    if not test_search(binary_search):
+        print("binary_search does not work correctly")
+    
+
+# Finds out how long it takes to perform tasks recursively and looping
+# Parameters: none
+# Returns: none
+def main():
+    
+    print("Welcome! This program will tell you how long it will take to perform various tasks.")
+    
+    
+    run_all_tests() # Make sure all the sorts and searches work
+    
+    # Get user's choices
+    choice = menu() 
+
+    
+    # while the user hasn't chosen to quit, do their choice and ask again for a choice
+    while choice != 0:
+        
+        # Initialize variables for next run.
+        total = 0
+        n = input_int("How big a list would you like to test? ")
+    
+        if choice == 1:
+            # 1 == Your Sort
+            total = time_sort(my_sort,n)
+            
+        elif choice == 2:
+            # 2 == Python's Sort
+            total = time_sort(builtin_sort, n)
+            
+        elif choice == 3:
+            # 3 == Linear Search
+            total = time_search(linear_search, n)
+            
+        elif choice == 4:
+            # 4 == Looping Binary Search
+            total = time_search(binary_search, n)
+            
+        print("That took",total,"seconds.") # Output timing results from whichever option ran
+        
+        choice = menu() # Ask user to choose again
+
+
+main() # Run the program
