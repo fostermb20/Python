@@ -1,0 +1,304 @@
+# Programmer: Nick, Michael, Sydney
+# Course:  CS151.01, Dr. Kenyon
+# Due Date: 05/01/23
+# Programming Assignment: 6
+# Problem Statement: Analyzing the headlines of the Australian Broadcasting Company (ABC)
+# Data In: The news file, input questions to the user
+# Data Out: Bar graph, screen results, and file
+# Credits: the notes in class, stack overflow, each other
+
+# Variable
+newsfile = "abcnews.csv"
+# importing regular expressions
+import re
+# importing matplot
+import matplotlib.pyplot as plt
+
+
+# Purpose: Read in file and store it in a list of lists
+# Parameters: "filename" - name of the file we are reading in news file
+# Return: article_list - list of lists of all the articles in news file
+def read_file(filename):
+    article_list = []
+    file = open(filename, "r")
+    for line in file:
+        articles = line.strip().replace(",", " ").split()
+        article_list.append(articles)
+    file.close()
+    return article_list
+
+
+# Goes through the list of each article
+# Puts the list of each article into a dictionary
+# If the word isn't in the dictionary already it adds it to the dictionary and add 1 to its value
+def list_to_dictionary(article_list):
+    dictionary_of_words_in_articles = {}
+    for article_list in article_list:
+        for word in article_list:
+            if word in dictionary_of_words_in_articles:
+                dictionary_of_words_in_articles[word] += 1
+            else:
+                dictionary_of_words_in_articles[word] = 1
+    return dictionary_of_words_in_articles
+
+
+# Uses the previously created dictionary and sorts through it
+# The most occurring words go to the end of the dictionary
+# Uses the built in sorted function to help sort through the dictionary
+def find_most_occuring_words(occurance_of_words):
+    sorted_occurances_of_words = {}
+    sorted_keys = sorted(occurance_of_words, key=occurance_of_words.get)
+    for key in sorted_keys:
+        sorted_occurances_of_words[key] = occurance_of_words[key]
+    return sorted_occurances_of_words
+
+
+# Gets a list of the keys in the sorted dictionary
+# Creates a new list with the last 20 words in the list and returns it
+# This means they are the 20 that occur the most
+def top_20_word(sorted_occurances):
+    list_top_20_words = list(sorted_occurances.keys())
+    list_top_20_words = list_top_20_words[-20:]
+    return list_top_20_words
+
+
+# TODO: comment to class format
+# Creates a list that contains the values of the sorted occurrences dictionary
+# The list then becomes the last 20 elements which are the number of occurrences for the last twenty words
+# returns the list
+def num_of_20_word(sorted_occurances):
+    num_top_20_words = list(sorted_occurances.values())
+    num_top_20_words = num_top_20_words[-20:]
+    return num_top_20_words
+
+
+# Purpose: open the file to write to
+# Parameters: N/A
+# Return: the file handler
+def write_open_file():
+    proceed = "no"
+    while proceed == "no":
+        open_file_name = input('Please enter the name of the file that you would like to write to.').strip().lower()
+        try:
+            opened_file = open(open_file_name, "w")
+            proceed = "yes"
+        except IOError:
+            print("File not accessible")
+    return opened_file
+
+
+# Purpose: Ask user for the day, month, and year
+# Parameters: N/A
+# Return: the year and the month
+def month_day_year_input(se):
+    # request the user to input the day, month, and year parsed into format against articles
+    while True:
+        print("Please enter the", se, "date ", end="")
+        month_day_year = input("in the format MM/DD/YYYY: ")
+        pattern = r"^(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])\/\d{4}$"
+        if re.match(pattern, month_day_year):
+            month, day, year = month_day_year.split("/")
+            year_month_day = year + month + day
+            return year_month_day
+        else:
+            print("Invalid format. Please enter the month and year in the format MM/DD/YYYY.")
+
+
+# Purpose: the find the word between two dates
+# Parameters: the list of articles
+# Return: the list of headlines
+def word_to_dates(wd_list):
+    # list that will be written to the file
+    output_list = []
+    match_list = []
+    output = ""
+    # Ask for the start date
+    start_date = month_day_year_input("start")
+    # Ask for the end date
+    end_date = month_day_year_input("end")
+    # Ask for the word
+    word = input("What is the word that you would like to look for?").strip().lower()
+    # loop over headlines looking for the word if a match add to the list
+    for article in wd_list:
+        if article[0] >= start_date and article[0] <= end_date:
+            for article_word in article:
+                # if word found set match to yes
+                if article_word == word:
+                    match_list.append(article)
+    # Reformatting the list to output to the file
+    for match in match_list:
+        output = ""
+        for word in match:
+            output += word
+            output += " "
+        output_list.append(output)
+    # print(output_list)
+    return output_list
+
+
+# Purpose: To write all the found words in the file
+# Parameters: Pass the file and a list to be written to the file
+# Return: none
+def write_file(wf_file, wf_list):
+    print("Writing to", wf_file.name)
+    # loop over the words and write to the file
+    for word in wf_list:
+        wf_file.write(word + "\n")
+
+
+# Purpose: To close the file
+# Parameters: the file handler
+# Return: none
+def close_file(close_file_name):
+    try:
+        close_file_name.close()
+    except IOError:
+        print("File not accessible")
+
+
+# Purpose: Ask user for the month and year
+# Parameters: N/A
+# Return: the year and the month
+def month_year_input():
+    # request the user to input the month and year parsed into format against articles
+    while True:
+        month_year = input("Enter the month and year in the format MM/YYYY: ")
+        pattern = r"^(0?[1-9]|1[012])\/\d{4}$"
+        if re.match(pattern, month_year):
+            month, year = month_year.split("/")
+            year_month = year + month
+            # print(year_month)
+            return year_month
+        else:
+            print("Invalid format. Please enter the month and year in the format MM/YYYY.")
+
+
+# Purpose: Outputs a list of articles for the user requested date and month
+# Parameters: the articles list and user selected date
+# Return: N/A
+def headlines_month_year(hmy_articles_list, hmy_date):
+    # creating a dictionary to count the days
+    entries_per_day = {}
+    # loop over headline list and print matching dates
+    for i in range(len(hmy_articles_list)):
+        trim_date = hmy_articles_list[i][0]
+        # print(str(trim_date)[:6])
+        # print(hmy_date)
+        if str(hmy_articles_list[i][0])[:6] == hmy_date:
+            day = str(hmy_articles_list[i][0])[6:]
+            if day in entries_per_day:
+                entries_per_day[day] += 1
+            else:
+                entries_per_day[day] = 1
+    for key in entries_per_day:
+        print("On the", key, "day there are", entries_per_day[key], "headlines")
+
+
+# Purpose: Finds the oldest and newest article
+# Parameters: the articles list
+# Return: the list of articles
+def oldest_and_newest(on_articles_list):
+    # find oldest article
+    if len(on_articles_list) == 0:
+        return None
+    else:
+        newest = on_articles_list[0][0]
+        oldest = on_articles_list[0][0]
+        for num in on_articles_list:
+            num = num[0]
+            if num > newest:
+                newest = num
+            elif num < oldest:
+                oldest = num
+        print("The newest article is,", newest[4:6], "/", newest[6:8], "/", newest[:4])
+        print("The oldest article is,", oldest[4:6], "/", oldest[6:8], "/", oldest[:4])
+
+
+# Get type safe integer input from the user
+# Parameters: Message to display to the user
+# Returns: int typed in by the user
+def input_int(msg):
+    # Ask user for an integer using parameter as prompt
+    candidate = input(msg)
+    candidate = candidate.replace(',', '')
+    # while the user hasn't provided an integer, ask again
+    while not candidate.isdigit():
+        print("Sorry, please enter an integer")
+        candidate = input(msg)
+
+    # Return user's input, typecast to an int
+    return int(candidate)
+
+
+# Purpose: Get menu selection from the user
+# Parameters: none
+# Returns: int of menu choice
+def menu():
+    # Create list of menu options to output to user
+    menu_options = "\t1. 20 Most Common Words in Headlines\n" + \
+                   "\t2. Write All Headlines With a Specific Word to a New File\n" + \
+                   "\t3. Find Number of Headlines Published on a Certain Day\n" + \
+                   "\t4. Find the Oldest and Newest Headline\n" + \
+                   "\t5. Exit"
+
+    # Output options with nice formatting
+    print("-" * 60)
+    print("Please select what you would like to run:")
+    print(menu_options)
+    print("-" * 60)
+
+    # Ask user for choice using int input function, until they provide a valid value
+    choice = input_int("Your selection: ")
+    while choice > 5:
+        print("That is not an option. As a reminder, your options are: ")
+        print(menu_options)
+        choice = input_int("Your selection: ")
+
+    return choice  # Return user's choice as an int (typecasted above)
+
+
+# Purpose: main program that calls other functions
+# Parameters: none
+# Returns: none
+def main():
+    article_list = read_file(newsfile)
+    # print(article_list)
+    print("This program will analyze a file of news headlines from the Australian Broadcasting Company.")
+    # Ask the user to input menu choice
+    choice = menu()
+    while choice != 5:
+        if choice == 1:
+            # Calls the function that gets the occurrence of each word, aka puts the words into a dictionary
+            occurance_of_words = list_to_dictionary(article_list)
+            sorted_occurances = find_most_occuring_words(occurance_of_words)
+            top_20_words = top_20_word(sorted_occurances)
+            num_of_top_20 = num_of_20_word(sorted_occurances)
+            x_axis = top_20_words
+            y_axis = num_of_top_20
+            plt.bar(x_axis, y_axis)
+            plt.xlabel("Top 20 Occurring Words")
+            plt.ylabel("Number of Occurrences")
+            plt.xticks(top_20_words, rotation='vertical')
+            plt.show()
+        elif choice == 2:
+            of = write_open_file()
+            write_list = word_to_dates(article_list)
+            write_file(of, write_list)
+            close_file(of)
+        elif choice == 3:
+            # Ask the User for a date
+            user_date = month_year_input()
+            # Search the headline for the date
+            headlines_month_year(article_list, user_date)
+        elif choice == 4:
+            oldest_and_newest(article_list)
+        # Ask the user to input menu choice
+        choice = menu()
+    else:
+        print("Quitting program now.")
+        print("Thank you for using the program!")
+        exit()
+
+
+# This is the main
+main()
