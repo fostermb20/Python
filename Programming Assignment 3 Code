@@ -1,0 +1,105 @@
+# Programmers: Michael Foster
+# Course:  CS151, Dr. Kenyon
+# Due Date: 3/01/22
+# Programming Assignment: 3
+# Problem Statement: Create a program that determines admittance to a university, sports eligibility, and honors program eligibility
+# Data In: GPA, sport yes or no, sport, sport score, leadership score, community service score, work score
+# Data Out: Acceptance, sport team, sport team demotion, honors program
+# Credits: This code is my own.
+
+def intro():
+    print("This program will determine your admission to a fictional university, your eligibility to play a sport, and your admission to an honors program.")
+
+def get_gpa():
+    gpa_get = float(input("What is your gpa?"))
+    while gpa_get > 4 or gpa_get < 0:
+        print("Please convert to 4.0 scale.")
+        gpa_get = float(input("What is your gpa?"))
+    return gpa_get
+
+def get_sport():
+    sport_get = input("What sport would you like to play?")
+    sport_get = sport_get.lower().strip()
+    return sport_get
+
+def get_sport_score():
+    sport_score_get = int(input("On a scale from 1-10, what is your sport ability score?"))
+    while sport_score_get <= 0 or sport_score_get > 10:
+        print("Invalid score. Please enter a score from 1-10")
+        sport_score_get = int(input("On a scale from 1-10, what is your sport ability score?"))
+    return sport_score_get
+
+def get_leadership_score():
+    leadership_get = int(input("On a scale from 1-10, what is your leadership experience score?"))
+    while leadership_get <= 0 or leadership_get > 10:
+        print("Invalid score. PLease enter a score from 1-10.")
+        leadership_get = int(input("On a scale from 1-10, what is your leadership experience score?"))
+    return leadership_get
+
+def get_community_service_score():
+    community_service_get = int(input("On a scale from 1-10, what is your community service experience score?"))
+    while community_service_get <= 0 or community_service_get > 10:
+        print("Invalid score. PLease enter a score from 1-10.")
+        community_service_get = int(input("On a scale from 1-10, what is your community service experience score?"))
+    return community_service_get
+
+def get_work_score():
+    work_get = int(input("On a scale from 1-10, what is your work experience score?"))
+    while work_get <= 0 or work_get > 10:
+        print("Invalid score. PLease enter a score from 1-10.")
+        work_get = int(input("On a scale from 1-10, what is your work experience score?"))
+    return work_get
+
+def main():
+    intro()
+    gpa = get_gpa()
+    sport_score = 0
+    honors_score = 0
+    if gpa >= 3 and gpa <= 4:
+        print("Congratulations! You were admitted into the university! Because of your admittance, you have an opportunity to play a sport!")
+        sport_yes_no = input("Would you like to participate in a sport? Enter yes or no.")
+        sport_yes_no = sport_yes_no.lower().strip()
+        if sport_yes_no == "yes":
+            sport = get_sport()
+            sport_score = get_sport_score()
+            if gpa >= 3 and gpa <= 4 and sport_score > 8:
+                print("Based on your sport score, you qualified to join the university's varsity team for your sport.")
+                if gpa < 3.2:
+                    print("However, because your GPA is less than 3.2, you are demoted one athletic tier. You are now only eligible to play for the club team.")
+            elif gpa >= 3 and gpa <= 4 and sport_score <= 8 and sport_score > 5:
+                print("Based on your sport score, you qualified to join the university's club team for your sport.")
+                if gpa < 3.2:
+                    print("However, because your GPA is less than 3.2, you are demoted one athletic tier. You are now only eligible to be a bench warmer.")
+            elif gpa >= 3 and gpa <= 4 and sport_score <= 5:
+                print("Based on your sport score, you qualified to be a benchwarmer.")
+            if gpa >= 3 and gpa <= 4:
+                print("Congratulations! Because of your admittance and strong GPA, you have the chance to be admitted into an honors program!")
+                leadership = get_leadership_score()
+                community_service = get_community_service_score()
+                work = get_work_score()
+                honors_score = leadership + community_service + work
+            if honors_score > 23:
+                print("Congratulations! You have been accepted into the Super Awesome Honors honors program!")
+            elif honors_score <= 23 and honors_score >= 15:
+                print("Congratulations! You have been accepted into the Also Awesome Honors honors program!")
+            else:
+                print("Unfortunately you did not qualify for either the Super Awesome Honors honors program or the Also Awesome Honors honors program.")
+        else:
+            print("Congratulations! Because of your admittance and strong GPA, you have the chance to be admitted into an honors program!")
+            leadership = get_leadership_score()
+            community_service = get_community_service_score()
+            work = get_work_score()
+            honors_score = leadership + community_service + work
+            if honors_score > 23:
+                print("Congratulations! You have been accepted into the Super Awesome Honors honors program!")
+            elif honors_score <= 23 and honors_score >= 15:
+                print("Congratulations! You have been accepted into the Also Awesome Honors honors program!")
+            else:
+                print("Unfortunately you did not qualify for either the Super Awesome Honors honors program or the Also Awesome Honors honors program.")
+    elif gpa >= 2 and gpa < 3:
+        print("Thank you for applying! You have been placed on the wait list.")
+    else:
+        print("Thank you for applying! Unfortunately, we are unable to admit you to the university.")
+    print("Thank you!")
+
+main()
