@@ -1,0 +1,48 @@
+# Programmer: Michael Foster
+# Course:  CS151, Dr. Kenyon
+# Due Date: 2/1/22
+# Programming Assignment: 1
+# Problem Statement: My mom needs to know how many 1-gallon cans of paint to buy in order to paint the walls of her bedroom.
+# Data In: Length of room, width of room, height of ceilings, length of any windows, width of any windows, length of doorway, width of doorway,
+# Data Out: Total amount of 1-gallon cans of paint required to paint the bedroom, thanking my mom for using the program
+# Credits: No, this code is my own.
+
+print('This program will determine how many 1-gallon cans of paint are required to paint a room of a certain size.')
+length_of_room = float(input('In feet, what is the length of you room?'))
+width_of_room = float(input('In feet, what is the width of your room?'))
+height_of_ceilings = float(input('In feet, what is the height of the ceilings in your room?'))
+windows_in_room = str(input('Are there any windows in your room? Enter Y for yes and N for no.'))
+if windows_in_room == 'Y' or windows_in_room == 'y' or windows_in_room == ' Y' or windows_in_room == ' y':
+    length_of_window = float(input('In feet, what is the length of the window?'))
+    width_of_window = float(input('In feet, what is the width of the window?'))
+else:
+    print('Okay, lets move on.')
+if windows_in_room == 'N' or windows_in_room == 'n' or windows_in_room == ' N' or windows_in_room == ' n':
+    length_of_window = int(0)
+    width_of_window = int(0)
+amount_of_doorways = int(input('Do you have 1 or 2 doorways in your room?'))
+if amount_of_doorways == int(1):
+    doorway_1_length = float(input('In feet, what is the height of your doorway?'))
+    doorway_1_width = float(input('In feet, what is the width of your doorway?'))
+    doorway_2_length = int(0)
+    doorway_2_width = int(0)
+if amount_of_doorways == int(2):
+    doorway_1_length = float(input('In feet, what is the height of your first doorway?'))
+    doorway_1_width = float(input('In feet, what is the width of your first doorway?'))
+    doorway_2_length = float(input('In feet what is the height of your second doorway?'))
+    doorway_2_width = float(input('In feet, what is the width of your second doorway?'))
+total_amount_of_wall_space = float((length_of_room * height_of_ceilings * 2) + (width_of_room * height_of_ceilings * 2))
+total_amount_of_window_and_door_space = float((length_of_window * width_of_window) + (doorway_1_length * doorway_1_width) + (doorway_2_length * doorway_2_width))
+total_amount_of_space_to_paint = float(total_amount_of_wall_space - total_amount_of_window_and_door_space)
+if total_amount_of_space_to_paint <= 0:
+    print('There is nothing to paint. You will need no paint.')
+if 0 < total_amount_of_space_to_paint <= 400:
+    print('Each 1-gallon can of paint can cover up to 400 square feet of space. The total amount of space you need to paint is', total_amount_of_space_to_paint, 'square feet. '
+    'You will need 1 1-gallon can of paint to paint your room.')
+if total_amount_of_space_to_paint > 400 and total_amount_of_window_and_door_space <= 800:
+    print('Each 1-gallon can of paint can cover up to 400 square feet of space. The total amount of space you need to paint is', total_amount_of_space_to_paint, 'square feet. '
+    'You will need 2 1-gallon cans of paint to paint your room.')
+if total_amount_of_space_to_paint > 800:
+    print('Each 1-gallon can of paint can cover up to 400 square feet of space. The total amount of space you need to paint is', total_amount_of_space_to_paint, 'square feet. '
+    'You will need 3 1-gallon cans of paint to paint your room.')
+print('Thank you for using the program!')
