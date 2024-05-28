@@ -1,0 +1,147 @@
+# Programmers: Michael Foster
+# Course: CS151
+# Due Date: 04/12/2023
+# Programming Assignment 5
+# Problem Statement: Read a file and output a list of words to a new file depending on what the user chooses to do.
+# Data In: Input file name, option (1-5), output file name, option (1-5) again
+# Data Out: List of words respective to what option the user chose.
+# Credits: Used ZyBook Ch. 12 to help
+# Input Files: 5letterwords.txt
+
+import os #import statement to be used to check if file exists
+
+# Purpose: read in the file
+# Parameters: filename — variable that allows user to enter the file
+# Return: words_list — variable that stores the words in the file, [] — empty list if error received
+def read_file(filename):
+    try:
+        file = open(filename, "r") #open and read file
+        word_list = []
+        for word in file:
+            word_list.append(word) #add words in file to a list
+        file.close()
+        return word_list
+    except ValueError:
+        file.close()
+        return[]
+
+# Purpose: find words with a certain letter in it
+# Parameters: letter — variable that stores user's choice of letter to look for, file_out — variable that stores user's choice of name for the output file
+# Return: words_with_letter — variable that stores the list of words that has the letter the user wants to look for
+def find_letter(letter, file_out):
+    file = open("5letterwords.txt", "r") #open and read file
+    words = file.read().split() #separate into list of strings
+    words_with_letter = []
+    for word in words:
+        if letter in word:
+            words_with_letter.append(word) #add words with specific letter to a list
+    file.close()
+    newfile = open(file_out, "w") #open and create new file to write list into it
+    for word in words_with_letter:
+        newfile.write(word) #write list into new file
+    newfile.close()
+    return words_with_letter
+
+# Purpose: find words with a certain letter in a certain position
+# Parameters: letter — variable that stores user's choice of letter to look for, position — variable that stores user's choice of position, file_out — variable that stores user's choice of name for the output file
+# Return: words_with_letter_pos — variable that stores the list of the words with the certain letter in the certain position
+def find_letter_pos(letter, position, file_out):
+    file = open("5letterwords.txt", "r") #open and read file
+    words = file.read().split() #sepearate into list of strings
+    words_with_letter_pos = []
+    for word in words:
+        if word[position-1] == letter:
+            words_with_letter_pos.append(word) #add words with letter and position into a list
+    file.close()
+    newfile = open(file_out, "w") #open and create new file to write list into it
+    for word in words_with_letter_pos:
+        newfile.write(word) #write list into new file
+    newfile.close()
+    return words_with_letter_pos
+
+# Purpose: find words with a certain number of vowels
+# Parameters: num_vowels — variable that stores user's choice of how many vowels they want in a word, file_out — variable that stores user's choice of name for the output file
+# Return: words_with_num_vowels — variable that stores the list of words with the number of vowels the user wanted
+def find_num_vowels(num_vowels, file_out):
+    file = open("5letterwords.txt", "r") #open and read file
+    words = file.read().split() #separate into list of strings
+    words_with_num_vowels = []
+    for word in words:
+        count = 0
+        for letter in word:
+            if letter in ['a', 'e', 'i', 'o', 'u']: #determine if letter is a vowel
+                count += 1
+        if count == num_vowels:
+            words_with_num_vowels.append(word) #add words with correct number of vowels into a list
+    file.close()
+    newfile = open(file_out, "w") #open and create new file to write list into it
+    for word in words_with_num_vowels:
+        newfile.write(word) #write list into new file
+    newfile.close()
+    return words_with_num_vowels
+
+# Purpose: find words with a double letter of the user's choice
+# Parameters: letter — variable that stores user's choice of letter to look for, file_out — variable that stores user's choice of name for the output file
+# Return: words_with_double_letter — variable that stores the list of words with the double letter
+def find_double_letters(letter, file_out):
+    file = open("5letterwords.txt", "r") #open and read file
+    words = file.read().split() #separate into list of strings
+    words_with_double_letter = []
+    for word in words:
+        if letter * 2 in word: #determine if there is a double letter in the word
+            words_with_double_letter.append(word) #add words with double letter into a list
+    file.close()
+    newfile = open(file_out, "w") #open and create new file to write list into it
+    for word in words_with_double_letter:
+        newfile.write(word) #write list into new file
+    newfile.close()
+    return words_with_double_letter
+
+# Purpose: create main function to run program
+# Parameters: N/A
+# Return: N/A
+def main():# ask user for input and call the corresponding function
+    filename = input("Enter file name: ") #ask user for file name
+    while not os.path.exists(filename):
+        print("File does not exist. Try again.")
+        filename = input("Enter file name: ") #error check for incorrect file name
+    word_list = read_file(filename)
+    if len(word_list) < 0:
+        print("There was an error in the data.") #error check for wrong data
+    choice = input("Enter 1 to find words with a certain letter, 2 to find words with a letter in a specific position, 3 to find words with a certain number of vowels, 4 to find words with double letters, or 5 to quit the program: ")
+    while choice != "5": #create while loop in order to ensure user can choose another option once program is run
+        if choice == "1":
+            letter = input("Enter a letter: ") #ask user for letter
+            file_out = input("Enter a name for the file you would like to output to: ") #ask for output file name
+            words_with_letter = find_letter(letter,file_out)
+            print(words_with_letter) #output list
+        elif choice == "2":
+            letter = input("Enter a letter: ") #ask user for letter
+            position = int(input("Enter a position 1-5: ")) #ask for position
+            while position < 1 or position > 5:
+                print("Please enter a valid position for the letter.") #error check for invalid position
+                position = int(input("Enter a position 1-5: "))
+            file_out = input("Enter a name for the file you would like to output to: ") #ask for output file name
+            words_with_letter_pos = find_letter_pos(letter, position, file_out)
+            print(words_with_letter_pos) #output list
+        elif choice == "3":
+            num_vowels = int(input("Enter a number of vowels: ")) #ask for number of vowels
+            file_out = input("Enter a name for the file you would like to output to: ") #ask user for output file name
+            words_with_num_vowels = find_num_vowels(num_vowels, file_out)
+            print(words_with_num_vowels) #output list
+        elif choice == "4":
+            letter = input("Enter a letter: ") #ask user for letter
+            file_out = input("Enter a name for the file you would like to output to: ") #ask for output file name
+            words_with_double_letter = find_double_letters(letter, file_out)
+            print(words_with_double_letter) #output list
+        elif choice != "1" or "2" or "3" or "4" or "5":
+            print("Invalid choice, please try again.") #error check for invalid option choice
+        choice = input("Enter 1 to find words with a certain letter, 2 to find words with a letter in a specific position, 3 to find words with a certain number of vowels, 4 to find words with double letters, or 5 to quit the program: ")
+            #ask user for if they want to run it again or quit
+    else:
+        print("Quitting program now.")
+        print("Thank you for using the program!")
+        exit() #if user chooses quit, thank user and exit program
+
+main() #call main function to run the program
+
