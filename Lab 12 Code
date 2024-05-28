@@ -1,0 +1,86 @@
+# Programmer: Nicholas, Michael, Sydney
+# Course:  CS151.01, Dr. Kenyon
+# Due Date: 05/02/23
+# Lab: 12
+# Problem Statement: Covert morse code to english
+# Data In: Morse code conversion file, encrypted morse code file
+# Data Out: The decrypted message in a new file
+# Credits: the notes in class, stack overflow
+
+import os
+
+# Purpose: Read in the file and create a dictionary with morse code as keys and the letters as values
+# Parameters: "filename" - input file name the user enters
+# Return: "morse_code_dict" - dictionary of morse code conversions, "[]" - empty list if there is an error
+def read_file(filename):
+    try:
+        file = open(filename, "r") #open and read file
+        morse_code_dict = {}
+        for line in file:
+            morse_code, letter, = line.strip().split("\t")
+            morse_code_dict[letter] = morse_code #add conversions in file to a list
+        file.close()
+        return morse_code_dict
+    except ValueError:
+        file.close()
+        return[]
+
+# Purpose: Converts the morse code into english letters
+# Parameters: "morse_code_file" - name of input file that holds the morse code needed to be converted, "morse_code_dict" - dictionary of morse code conversions
+# Return: "file_translate" - list of english letters translated from morse code
+def reading_morse_code(morse_code_file, morse_code_dict):
+    try:
+        file = open(morse_code_file, "r") #open and read file
+        file_txt = []
+        file_translate = []
+        # Reads each line in the file and adds it to file_txt
+        for line in file:
+            temp = line.strip().split()
+            file_txt.append(temp)
+        # Translates the morse code to english and adds it to a list
+        for line in file_txt:
+            word = []
+            for code in line:
+                if code in morse_code_dict:
+                    word.append(morse_code_dict[code])
+            file_translate.append(word)
+        file.close()
+        return file_translate
+    except ValueError:
+        file.close()
+        return[]
+
+# Purpose: Write morse code translation to new file
+# Parameters: "name_new_file" - name of new file that the user chooses to output morse code translation to, "morse_code_to_letter" - variable that calls function to convert morse code to english
+def create_new_file(name_new_file, morse_code_to_leter):
+    with open(name_new_file, 'w') as file:
+        # Loops through each word in the list and writes it to the file with a space after each word
+        for word in morse_code_to_leter:
+            file.write("".join(word))
+            file.write(" ")
+    file.close()
+
+# Purpose: Call other functions and run program
+# Parameters: N/A
+# Return: N/A
+def main():
+    print("The purpose of this code is to translate a morse code file into english")
+    filename = input("Enter file name: ")  # ask user for file name
+    while not os.path.exists(filename):
+        print("File does not exist. Try again.")
+        filename = input("Enter file name: ")  # error check for incorrect file name
+    morse_code_dict = read_file(filename)
+    response = None
+    while response != "quit":
+        morse_code_file = input("Enter file name for the file you would like to decode: ")  # ask user for file name
+        while not os.path.exists(morse_code_file):
+            print("File does not exist. Try again.")
+            morse_code_file = input("Please enter the file name for the file you would like to decode: ")
+        morse_code_to_letter = reading_morse_code(morse_code_file, morse_code_dict)
+        name_new_file = input("We are going to create a file that will store the decoded file in. What would you like to name the new file?: ")
+        create_new_file(name_new_file, morse_code_to_letter)
+        response = input("Would you like to decode another file? For yes press any! To quit type 'quit': ").lower()
+    print("Thank you for using the code. Have a nice day :)")
+
+
+main()
