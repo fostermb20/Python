@@ -1,0 +1,94 @@
+# CS151 Lab 10
+* (skip 9)
+* 50  points  
+* Due by start of next lab 
+
+## Problem 
+Create a program that will analyze data on the passenger of the Titanic. 
+
+## Purpose
+The purpose of this lab is to give you practice with
+
+1. reading from a file
+2. processing Strings
+3. function design and implementation
+4. error checking
+
+## The Data
+The input data was taken from http://biostat.mc.vanderbilt.edu/twiki/bin/view/Main/DataSets but has been altered so that each of the 7 data values (fields) for each passenger is separated from the next by a tab ("\t" is how you represent a tab in code). 
+Each line contains: Class, Survived, Name, Sex, Age, Embark, Destination
+* Class is either 1 or 2 or 3, and denotes the type of ticket purchased  
+* Survived is either 1 or 0  (1 means survived and 0 means died)  
+* Name is a string  
+* Age is a real number  (babies have ages < 1; unavailable ages are shown as 0)  
+* Sex is either “female” or “male”  
+* Embark is either ‘C’ or ‘S’ or ’Q’  (for Cherbourg, Southampton, or Queenstown)  
+* Destination is a string. Unavailable data is shown as XXX.  
+
+
+## Your Goal with the Data
+Your program should determine the following for the user:
+
+1. The total number of people to survive
+2. The percentage of each class who survived in the format "XX.X%" (e.g. 6.9%, 76.4%)
+3. A bar graph showing the percentage of each class who survived. You can create a bar graph by following the steps listed in the next section.
+
+## Being able to Graph
+
+### Installation
+First, you need to install the matplotlib package by following these instructions in PyCharm after opening your Lab 10 repository.
+
+1. Go to File Preferences/Settings
+2. Click on your Project
+3. Click on Python Interpreter
+4. Click on the plus symbol above the list of packages
+5. Search for "matplotlib"
+6. Click on matplotlib, then click "Install"
+
+### Code
+This code has made up data. You will instead create your lists for plotting based on the data from your file.
+
+```python
+import matplotlib.pyplot as plt
+
+# made up data for the purpose of demonstration
+mydata =[60, 50, 23, 69, 42] #value for each bar (e.g. how tall it is)
+xaxis=["A","B","C","D","E"] #label for each bar
+
+# creating a bar graph
+plt.bar(xaxis, mydata)
+plt.show()
+``` 
+
+If you would (in the future) like to save your graph, you can replace `plt.show()` with `plt.savefig("yourfilenamehere.png")` **NOTE: you *MUST* end with .png**. 
+
+## Your Steps for Coding
+
+NOTE THAT WE ARE NOT ASKING FOR AN ALGORITHM. FOLLOW THE STEPS.
+
+1. Understand the problem
+2. Write code to read in the file and correctly store it in a list of lists. Output your list to make sure it is in the correct format before continuing.
+3. *Switch Driver*. Write a function to determine the total number of people to survive. The function should return this information. Output in main.
+4. *Switch Driver*. Write a function to determine the percentage of feach class who survived, and return that data to main.
+5. *Switch Driver*. Write the output in main to output the percentage from each class who survived.
+6. Check your output against the answers we already created in Excel in class, to make sure your code works correctly.
+7. *Switch Driver*. Add in the code to plot the percentages as a bar graph.
+8. Add in any comments you haven't added already (function header comments, comments within functions, intro comments).
+9. If you have time remaining, you can attempt the extra credit.
+
+## Extra Credit
+Answer up to two of the following questions as well (+1 points for each question working correctly in the code):
+
+1. How many children were on board, and what percentage of total passengers were they?
+2. What was the average age of passengers by class?
+3. What percentage of passengers were from eack Embarkation point?
+4. How old was the oldest passenger and the youngest passenger?
+5. Write to a file a list of all of the survivor's names and their destinations (one survivor per line)
+
+## To Submit
+
+To Github:
+1. Your working .py file
+
+To Moodle:
+1. Your reflection about what you learned in this lab, what it was like working with your partner, and how you felt about graphing data. 
